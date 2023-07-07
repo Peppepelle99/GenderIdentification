@@ -73,9 +73,9 @@ def plot_heatmap(D, save_name, color):
     
     """ Plots correlations given D which are training/test data, store them in the folder called Generated_figures"""
     
-    pearson_matrix = heat_map(D)
+    pearson_matrix = corrcoef(D)
     plt.imshow(pearson_matrix, cmap=color)
-    plt.savefig('plots/figures/Correlations/byMe_%s.jpg' % (save_name))
+    plt.savefig('plots/figures/Correlations/%s.jpg' % (save_name))
     return pearson_matrix
 
 def plotDCFprior(x, y,xlabel):
