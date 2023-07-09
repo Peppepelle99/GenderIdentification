@@ -78,23 +78,22 @@ def plot_heatmap(D, save_name, color):
     plt.savefig('plots/figures/Correlations/%s.jpg' % (save_name))
     return pearson_matrix
 
-def plotDCFprior(x, y,xlabel):
+def plotDCFprior(x, y,applications,xlabel,title):
     
     """ Plots the minDCF trend when the different applications change, x is the list of lambda, y is the list of minDCF,
         store them in the folder called Generated_figures"""
     
     
     plt.figure()
-    plt.plot(x, y[0:len(x)], label='min DCF prior=0.5', color='b')
-    plt.plot(x, y[len(x): 2*len(x)], label='min DCF prior=0.1', color='r')
-    plt.plot(x, y[2*len(x): 3*len(x)], label='min DCF prior=0.9', color='g')
+    for i in range(3):
+        plt.semilogx(x, y[i,:], label=f'minDCF(pi1 = {applications[i][0]})') 
+        
+    plt.legend()
     plt.xlim([min(x), max(x)])
-    plt.xscale("log")
-    plt.legend(["min DCF prior=0.5", "min DCF prior=0.1", "min DCF prior=0.9"])
     plt.xlabel(xlabel)
     plt.ylabel("min DCF")
-    plt.savefig('Graphics/Generated_figures/DCFPlots/minDCF_%s.jpg' % (xlabel))
-    plt.show()
+    plt.title(title)
+    plt.savefig('plots/figures/Logreg/minDCF_%s.jpg' % (title))
     return
 
 def plotDCFc(x, y,xlabel):

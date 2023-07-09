@@ -19,7 +19,7 @@ def logreg_obj_wrap_balancing(DTR, LTR, l, pi):
 
 
 
-def compute_linearLogReg(DTR, LTR, l, DTE, pi):
+def compute_linearLogReg(DTR, LTR, DTE, l, pi):
     
     v = np.zeros(DTR.shape[0]+1)
     logreg_obj2 = logreg_obj_wrap_balancing(DTR, LTR, l, pi)

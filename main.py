@@ -1,7 +1,9 @@
 import utility as uty
 import plots.plots as plots
-from MVG_analisys import Generative_analysis
+from analysis.MVG_analysis import Generative_analysis
+from analysis.logreg_analysis import Regression_analysis, Regression_analysis2
 from preprocessing import  gauss_znorm
+import numpy as np
 
 #load data
 DTR, LTR, DTE, LTE = uty.load_train_and_test()
@@ -44,26 +46,58 @@ DTR, LTR, DTE, LTE = uty.load_train_and_test()
 
 applications = [[0.5,1,1] , [0.1,1,1], [0.9,1,1]]
 
-# ******************************** GENERATIVE ANALISYS ********************************
 
-print('------------------------- Raw Data -------------------------')
-Generative_analysis(applications, ['MVG', 'Naive', 'Tied', 'Tied Naive'], DTR, LTR)
+# ******************************** GENERATIVE MODEL ANALYSIS ********************************
 
-print('------------------------- Raw + PCA 11 -------------------------')
-Generative_analysis(applications, ['MVG', 'Naive', 'Tied', 'Tied Naive'], DTR, LTR, [0,0,1,0], pca_value=11)
+# print('------------------------- Raw Data -------------------------')
+# Generative_analysis(applications, ['MVG', 'Naive', 'Tied', 'Tied Naive'], DTR, LTR)
 
-print('------------------------- Raw + PCA 10 -------------------------')
-Generative_analysis(applications, ['MVG', 'Naive', 'Tied', 'Tied Naive'], DTR, LTR, [0,0,1,0], pca_value=10)
+# print('------------------------- Raw + PCA 11 -------------------------')
+# Generative_analysis(applications, ['MVG', 'Naive', 'Tied', 'Tied Naive'], DTR, LTR, [0,0,1,0], pca_value=11)
 
-print('------------------------- Gauss -------------------------')
-Generative_analysis(applications, ['MVG', 'Naive', 'Tied', 'Tied Naive'], DTR, LTR, [1,0,0,0])
+# print('------------------------- Raw + PCA 10 -------------------------')
+# Generative_analysis(applications, ['MVG', 'Naive', 'Tied', 'Tied Naive'], DTR, LTR, [0,0,1,0], pca_value=10)
 
-print('------------------------- Gauss + PCA 11 -------------------------')
-Generative_analysis(applications, ['MVG', 'Naive', 'Tied', 'Tied Naive'], DTR, LTR, [1,0,1,0], pca_value=11)
+# print('------------------------- Gauss Data -------------------------')
+# Generative_analysis(applications, ['MVG', 'Naive', 'Tied', 'Tied Naive'], DTR, LTR, [1,0,0,0])
 
-print('------------------------- Gauss + PCA 10 -------------------------')
-Generative_analysis(applications, ['MVG', 'Naive', 'Tied', 'Tied Naive'], DTR, LTR, [1,0,1,0], pca_value=10)
+# print('------------------------- Gauss + PCA 11 -------------------------')
+# Generative_analysis(applications, ['MVG', 'Naive', 'Tied', 'Tied Naive'], DTR, LTR, [1,0,1,0], pca_value=11)
 
+# print('------------------------- Gauss + PCA 10 -------------------------')
+# Generative_analysis(applications, ['MVG', 'Naive', 'Tied', 'Tied Naive'], DTR, LTR, [1,0,1,0], pca_value=10)
+
+# print('------------------------- Z Data -------------------------')
+# Generative_analysis(applications, ['MVG', 'Naive', 'Tied', 'Tied Naive'], DTR, LTR, [0,1,0,0])
+
+# print('------------------------- Z + PCA 11 -------------------------')
+# Generative_analysis(applications, ['MVG', 'Naive', 'Tied', 'Tied Naive'], DTR, LTR, [0,1,1,0], pca_value=11)
+
+# print('------------------------- Z + PCA 10 -------------------------')
+# Generative_analysis(applications, ['MVG', 'Naive', 'Tied', 'Tied Naive'], DTR, LTR, [0,1,1,0], pca_value=10)
+
+
+# ******************************** REGRESSION ANALYSIS ********************************
+
+l_list = [((1/10**-i) if i<0 else (10**i)) for i in np.linspace(-5, 5,5)];
+
+# print('------------------------- Raw Data - Linear -------------------------')
+# Regression_analysis(applications, ['linear'], DTR, LTR, l_list, title='RAW DATA - LINEAR LOGISTIC REGRESSSION')
+
+# print('------------------------- Z Data - Linear -------------------------')
+# Regression_analysis(applications, ['linear'], DTR, LTR, l_list, eval_types=[0,1,0,0], title='Z DATA - LINEAR LOGISTIC REGRESSSION')
+
+# print('------------------------- Gauss Data - Linear -------------------------')
+# Regression_analysis(applications, ['linear'], DTR, LTR, l_list, eval_types=[1,0,0,0], title='GAUSS DATA - LINEAR LOGISTIC REGRESSSION')
+
+print('------------------------- Raw Data - Quadratic -------------------------')
+Regression_analysis(applications, ['quadratic'], DTR, LTR, l_list, title='RAW DATA - QUADRATIC LOGISTIC REGRESSSION_1a')
+
+# print('------------------------- Z Data - Quadratic -------------------------')
+# Regression_analysis(applications, ['quadratic'], DTR, LTR, l_list, eval_types=[0,1,0,0], title='Z DATA - QUADRATIC LOGISTIC REGRESSSION')
+
+# print('------------------------- Gauss Data - Quadratic -------------------------')
+# Regression_analysis(applications, ['quadratic'], DTR, LTR, l_list, eval_types=[1,0,0,0], title='GAUSS DATA - QUADRATIC LOGISTIC REGRESSSION')
 
 
 

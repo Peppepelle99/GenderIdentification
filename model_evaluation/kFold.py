@@ -1,9 +1,5 @@
 import numpy as np
 from preprocessing import gauss_znorm, PCA, LDA
-GAUSSIANIZATION = False
-ZNORMALIZATION = False
-PCA = False
-LDA = False
 
 types_d = {'gaussianization': False, 
            'Z-normalization': False,
@@ -55,26 +51,26 @@ def k_fold(D, L, algorithm, K=5, params=None, params_cal=None, seed=0, types = N
         LTE = L[idx_test]
 
         #apply preprocessing to data
-        if GAUSSIANIZATION:
+        if types_d['gaussianization']:
             DTE= gauss_znorm.Gaussianization(DTR,DTE)
             DTR = gauss_znorm.Gaussianization(DTR,DTR)
-            print("Gaussianization")
-
-        if ZNORMALIZATION:
-                DTE = gauss_znorm.ZNormalization(DTR,DTE)
-                DTR = gauss_znorm.ZNormalization(DTR,DTR)
-                print("Z-normalization")
             
-        if PCA:
+
+        if types_d['Z-normalization']:
+                DTE = gauss_znorm.z_score_normalization(DTR,DTE)
+                DTR = gauss_znorm.z_score_normalization(DTR,DTR)
+                
+            
+        if types_d['PCA']:
             DTE=PCA.PCA(DTR, DTE, pca_value)
             DTR=PCA.PCA(DTR, DTR, pca_value)
-            print("PCA dimensionality: ",DTR.shape)
+            
 
-        if LDA:
+        if types_d['LDA']:
             m_lda = 1
             DTE=LDA.LDA(DTR, LTR,DTE, m_lda)
             DTR=LDA.LDA(DTR, LTR,DTR, m_lda)
-            print("LDA dimensionality: ",DTR.shape)
+            
             
         # calculate scores
         if params is not None:

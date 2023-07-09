@@ -21,8 +21,8 @@ def Gaussianization(TD, D):
 
 
 
-def z_score_normalization(DTR):
+def z_score_normalization(DTR, DTE):
     mean = np.mean(DTR, axis=1)  
     std = np.std(DTR, axis=1)    
-    normalized_DTR = (DTR - ut.vcol(mean)) / ut.vcol(std)  
+    normalized_DTR = (DTE - ut.vcol(mean)) / ut.vcol(std)  
     return normalized_DTR
