@@ -1,7 +1,10 @@
 import utility as uty
 import plots.plots as plots
+
 from analysis.MVG_analysis import Generative_analysis
-from analysis.logreg_analysis import Regression_analysis, Regression_analysis2
+from analysis.logreg_analysis import Regression_analysis
+from analysis.SVM_analysis import SVM_analysis, SVM_RBFanalysis
+
 from preprocessing import  gauss_znorm
 import numpy as np
 
@@ -79,7 +82,7 @@ applications = [[0.5,1,1] , [0.1,1,1], [0.9,1,1]]
 
 # ******************************** REGRESSION ANALYSIS ********************************
 
-l_list = [((1/10**-i) if i<0 else (10**i)) for i in np.linspace(-5, 5,5)];
+l_list = [((1/10**-i) if i<0 else (10**i)) for i in np.linspace(-5, 5,30)]
 
 # print('------------------------- Raw Data - Linear -------------------------')
 # Regression_analysis(applications, ['linear'], DTR, LTR, l_list, title='RAW DATA - LINEAR LOGISTIC REGRESSSION')
@@ -90,8 +93,17 @@ l_list = [((1/10**-i) if i<0 else (10**i)) for i in np.linspace(-5, 5,5)];
 # print('------------------------- Gauss Data - Linear -------------------------')
 # Regression_analysis(applications, ['linear'], DTR, LTR, l_list, eval_types=[1,0,0,0], title='GAUSS DATA - LINEAR LOGISTIC REGRESSSION')
 
-print('------------------------- Raw Data - Quadratic -------------------------')
-Regression_analysis(applications, ['quadratic'], DTR, LTR, l_list, title='RAW DATA - QUADRATIC LOGISTIC REGRESSSION_1a')
+# print('------------------------- Raw + PCA 11 - Linear -------------------------')
+# Regression_analysis(applications, ['linear'], DTR, LTR, l_list, eval_types=[0,0,1,0] , title='RAW DATA - LINEAR LOGISTIC REGRESSSION', print_values=True, pca_value = 11)
+
+# print('------------------------- Z + PCA 11 - Linear -------------------------')
+# Regression_analysis(applications, ['linear'], DTR, LTR, l_list, eval_types=[0,1,1,0], title='Z DATA - LINEAR LOGISTIC REGRESSSION', print_values=True, pca_value = 11)
+
+# print('------------------------- Gauss + PCA 11 - Linear -------------------------')
+# Regression_analysis(applications, ['linear'], DTR, LTR, l_list, eval_types=[1,0,1,0], title='GAUSS DATA - LINEAR LOGISTIC REGRESSSION', print_values=True, pca_value = 11)
+
+# print('------------------------- Raw Data - Quadratic -------------------------')
+# Regression_analysis(applications, ['quadratic'], DTR, LTR, l_list, title='RAW DATA - QUADRATIC LOGISTIC REGRESSSION')
 
 # print('------------------------- Z Data - Quadratic -------------------------')
 # Regression_analysis(applications, ['quadratic'], DTR, LTR, l_list, eval_types=[0,1,0,0], title='Z DATA - QUADRATIC LOGISTIC REGRESSSION')
@@ -99,5 +111,34 @@ Regression_analysis(applications, ['quadratic'], DTR, LTR, l_list, title='RAW DA
 # print('------------------------- Gauss Data - Quadratic -------------------------')
 # Regression_analysis(applications, ['quadratic'], DTR, LTR, l_list, eval_types=[1,0,0,0], title='GAUSS DATA - QUADRATIC LOGISTIC REGRESSSION')
 
+# print('------------------------- Raw + PCA 11 - Quadratic -------------------------')
+# Regression_analysis(applications, ['quadratic'], DTR, LTR, l_list, eval_types=[0,0,1,0] , title='RAW DATA - QUADRATIC LOGISTIC REGRESSSION', print_values=True, pca_value = 11)
+
+# print('------------------------- Z + PCA 11 - Quadratic -------------------------')
+# Regression_analysis(applications, ['quadratic'], DTR, LTR, l_list, eval_types=[0,1,1,0], title='Z DATA - QUADRATIC LOGISTIC REGRESSSION', print_values=True, pca_value = 11)
+
+# print('------------------------- Gauss + PCA 11 - Quadratic -------------------------')
+# Regression_analysis(applications, ['quadratic'], DTR, LTR, l_list, eval_types=[1,0,1,0], title='GAUSS DATA - QUADRATIC LOGISTIC REGRESSSION', print_values=True, pca_value = 11)
 
 
+# ******************************** SVM ANALYSIS ********************************
+
+C_list = [((1/10**-i) if i<0 else (10**i)) for i in np.linspace(-3, 2,30)]
+gamma_list = [1/np.exp(x) for x in [1, 2, 3]]
+# print('------------------------- Raw Data - Linear -------------------------')
+# SVM_analysis(applications, ['linear'], DTR, LTR, C_list, title='RAW DATA - LINEAR SVM')
+
+# print('------------------------- Z Data - Linear -------------------------')
+# SVM_analysis(applications, ['linear'], DTR, LTR, C_list, eval_types=[0,1,0,0], title='Z DATA - LINEAR SVM')
+
+print('------------------------- Raw Data - Quadratic -------------------------')
+SVM_analysis(applications, ['kernel'], DTR, LTR, C_list, type_k='poly', title='RAW DATA - Quadratic SVM')
+
+print('------------------------- Z Data - Quadratic -------------------------')
+SVM_analysis(applications, ['kernel'], DTR, LTR, C_list, type_k='poly', eval_types=[0,1,0,0], title='Z DATA - Quadratic SVM')
+
+# print('------------------------- Raw Data - RBF -------------------------')
+# SVM_RBFanalysis(gamma_list, DTR, LTR, C_list, type_k='RBF', title='RAW DATA - RBF SVM')
+
+# print('------------------------- Z Data - RBF -------------------------')
+# SVM_RBFanalysis(gamma_list, DTR, LTR, C_list, type_k='RBF', eval_types=[0,1,0,0], title='Z DATA - RBF SVM')

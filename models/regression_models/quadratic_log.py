@@ -18,41 +18,6 @@ def logreg_obj_wrap_balancing(DTR, LTR, l, pi):
 
 
 
-
-def compute_quadraticLogReg(DTR, LTR, DTE, l, pi):
-
-    DTR_exp = [] 
-    
-    for i in range(DTR.shape[1]):
-        x = DTR[:,i:i+1]
-        tmp = np.dot(x, x.T)
-        tmp2 = np.ravel(tmp, order='F')
-        tmp3 = np.concatenate( (ut.vcol(tmp2), ut.vcol(x)), axis=0)
-        DTR_exp.append(tmp3)
-
-    DTR_exp=np.hstack(DTR_exp)
-    
-    DTE_exp = []
-    
-    for i in range(DTE.shape[1]):
-        x = DTE[:,i:i+1]
-        tmp = np.dot(x, x.T)
-        tmp2 = np.ravel(tmp, order='F')
-        tmp3 = np.concatenate( (ut.vcol(tmp2), ut.vcol(x)), axis=0)
-        DTE_exp.append(tmp3)
-
-    DTE_exp=np.hstack(DTE_exp)
-    
-    v = np.zeros(DTR_exp.shape[0]+1)
-    logreg_obj2 = logreg_obj_wrap_balancing(DTR_exp, LTR, l, pi)
-    y, _J, _d = so.fmin_l_bfgs_b(logreg_obj2, v, approx_grad=True)
-     
-
-    S = np.dot(y[0:-1], DTE_exp) + y[-1]
-    
-    return S
-
-
 def compute_quadraticLogReg2(DTR, LTR, DTE, l, pi):
 
     # DTE expanded features
