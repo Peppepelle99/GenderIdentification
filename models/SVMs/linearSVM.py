@@ -3,7 +3,7 @@ import scipy.optimize as so
 import utility as ut
 
 
-def train_SVM_linear_2(DTR, LTR, DTE, C, K, balanced = False, pi1=0.5 ):
+def train_SVM_linear_2(DTR, LTR, DTE, C, K, balanced = True, pi1=0.5 ):
     """Implementation of the Linear SVM """
     
     DTREXT = np.vstack([DTR, K* np.ones((1,DTR.shape[1] ))])

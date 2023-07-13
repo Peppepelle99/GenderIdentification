@@ -4,6 +4,7 @@ import plots.plots as plots
 from analysis.MVG_analysis import Generative_analysis
 from analysis.logreg_analysis import Regression_analysis
 from analysis.SVM_analysis import SVM_analysis, SVM_RBFanalysis
+from analysis.GMM_analysis import GMM_analysis
 
 from preprocessing import  gauss_znorm
 import numpy as np
@@ -124,21 +125,37 @@ l_list = [((1/10**-i) if i<0 else (10**i)) for i in np.linspace(-5, 5,30)]
 # ******************************** SVM ANALYSIS ********************************
 
 C_list = [((1/10**-i) if i<0 else (10**i)) for i in np.linspace(-3, 2,30)]
-gamma_list = [1/np.exp(x) for x in [1, 2, 3]]
-# print('------------------------- Raw Data - Linear -------------------------')
-# SVM_analysis(applications, ['linear'], DTR, LTR, C_list, title='RAW DATA - LINEAR SVM')
+gamma_list = [1/np.exp(3) for x in [1, 2, 3]]
 
-# print('------------------------- Z Data - Linear -------------------------')
-# SVM_analysis(applications, ['linear'], DTR, LTR, C_list, eval_types=[0,1,0,0], title='Z DATA - LINEAR SVM')
 
-print('------------------------- Raw Data - Quadratic -------------------------')
-SVM_analysis(applications, ['kernel'], DTR, LTR, C_list, type_k='poly', title='RAW DATA - Quadratic SVM')
+# print('------------------------- Raw Data - Linear  -------------------------')
+# SVM_analysis(applications, ['linear'], DTR, LTR, C_list, title='RAW DATA - LINEAR SVM', print_values=True)
 
-print('------------------------- Z Data - Quadratic -------------------------')
-SVM_analysis(applications, ['kernel'], DTR, LTR, C_list, type_k='poly', eval_types=[0,1,0,0], title='Z DATA - Quadratic SVM')
+# print('------------------------- Z Data - Linear   -------------------------')
+# SVM_analysis(applications, ['linear'], DTR, LTR, C_list, eval_types=[0,1,0,0], title='Z DATA - LINEAR SVM', print_values='True')
+
+# print('------------------------- Raw Data - Quadratic -------------------------')
+# SVM_analysis(applications, ['kernel'], DTR, LTR, C_list, type_k='poly', title='RAW DATA - Quadratic SVM', print_values=True)
+
+# print('------------------------- Z Data - Quadratic -------------------------')
+# SVM_analysis(applications, ['kernel'], DTR, LTR, C_list, type_k='poly', eval_types=[0,1,0,0], title='Z DATA - Quadratic SVM', print_values=True)
 
 # print('------------------------- Raw Data - RBF -------------------------')
-# SVM_RBFanalysis(gamma_list, DTR, LTR, C_list, type_k='RBF', title='RAW DATA - RBF SVM')
+# SVM_RBFanalysis(gamma_list, DTR, LTR, C_list, type_k='RBF', title='RAW DATA - RBF SVM', print_values=True)
 
 # print('------------------------- Z Data - RBF -------------------------')
-# SVM_RBFanalysis(gamma_list, DTR, LTR, C_list, type_k='RBF', eval_types=[0,1,0,0], title='Z DATA - RBF SVM')
+# SVM_RBFanalysis(gamma_list, DTR, LTR, C_list, type_k='RBF', eval_types=[0,1,0,0], title='Z DATA - RBF SVM', print_values=True)
+
+
+# ******************************** GMM ANALYSIS ********************************
+M_list = [1,2,4,8,16,32]
+
+#GMM_analysis(applications, M_list, ['full'], DTR, LTR, title='FULL', savefig ='FULL GMM -- RAW-GAUSS')
+# GMM_analysis(applications, M_list, ['tied'], DTR, LTR, title='TIED', savefig ='TIED GMM -- RAW-GAUSS')
+# GMM_analysis(applications, M_list, ['diag'], DTR, LTR, title='DIAG', savefig ='DIAG GMM -- RAW-GAUSS')
+#GMM_analysis(applications, M_list, ['tiedDiag'], DTR, LTR, title='TIED DIAG', savefig ='TIED DIAG GMM -- RAW-GAUSS')
+
+GMM_analysis(applications, M_list, ['full'], DTR, LTR, title='FULL', savefig ='FULL GMM -- RAW-Z')
+GMM_analysis(applications, M_list, ['tied'], DTR, LTR, title='TIED', savefig ='TIED GMM -- RAW-Z')
+GMM_analysis(applications, M_list, ['diag'], DTR, LTR, title='DIAG', savefig ='DIAG GMM -- RAW-Z')
+GMM_analysis(applications, M_list, ['tiedDiag'], DTR, LTR, title='TIED DIAG', savefig ='TIED DIAG GMM -- RAW-Z')

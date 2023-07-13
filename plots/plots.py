@@ -99,6 +99,22 @@ def plotDCFprior(x, y,applications,xlabel,title, savefig = '', type = None):
     plt.savefig(savefig)
     return
 
+def plotHist_GMM(x,xlabel,y1,y2, title, savefig = ''):
+    label1 = 'minDCF(pi1 = 0.5) - raw'
+    label2 = 'minDCF(pi1 = 0.5) - z norm'
+
+    plt.figure()
+    plt.bar(x-0.2,y1, width=0.3, label = label1)
+    plt.bar(x+0.2, y2, width=0.3, label = label2)
+    plt.xticks(x, xlabel)
+    plt.xlabel('GMM components')
+    plt.ylim(0,0.6)
+    plt.ylabel('DCF')
+    plt.legend()
+    plt.title(title)
+    plt.savefig(savefig)
+    
+
 def plotDCFc(x, y,xlabel):
     
     """ Plots the minDCF trend when the different c change, x is the list of C, y is the list of minDCF,

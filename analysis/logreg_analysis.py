@@ -1,7 +1,6 @@
 from model_evaluation import bayesEval, kFold
 from models.regression_models import linear_log, quadratic_log
 import numpy as np
-import matplotlib.pyplot as plt
 from tqdm import tqdm
 from plots.plots import plotDCFprior
 

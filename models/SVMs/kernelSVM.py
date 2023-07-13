@@ -20,11 +20,11 @@ def kernel(x1, x2, type, d = 0, c = 0, gamma = 0, csi = 1):
         return k
     
  
-def kernel_svm(DTR, LTR, DTE, C, type, gamma = 0, c=0,csi=0, balance_data = False, pi=0.5):
+def kernel_svm(DTR, LTR, DTE, C, type, gamma = 0, c=0,csi=0, balance_data = True, pi=0.5):
     """Implementation of the kernel svm""" 
  
     bounds = [(0,1)] * LTR.size
-    
+
     if balance_data == True:
 
         tot_samples = LTR.size #num of total samples
