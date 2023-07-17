@@ -15,7 +15,7 @@ def plot_hist(D, L, save_name=""):
 
     for dIdx in range(12):
         plt.figure()
-        plt.xlabel(f'featrues {dIdx}') 
+        plt.xlabel(f'feature {dIdx}') 
         plt.hist(D0[dIdx, :], bins = 30, density = True, alpha = 0.8, label = 'MALE')
         plt.hist(D1[dIdx, :], bins = 30, density = True, alpha = 0.8, label = 'FEMALE')
         
@@ -69,12 +69,13 @@ def heat_map(D):
     return map_pearson
 
 
-def plot_heatmap(D, save_name, color):
+def plot_heatmap(D, save_name, color, title = ''):
     
     """ Plots correlations given D which are training/test data, store them in the folder called Generated_figures"""
     
     pearson_matrix = corrcoef(D)
     plt.imshow(pearson_matrix, cmap=color)
+    plt.title(title)
     plt.savefig('plots/figures/Correlations/%s.jpg' % (save_name))
     return pearson_matrix
 
@@ -115,57 +116,35 @@ def plotHist_GMM(x,xlabel,y1,y2, title, savefig = ''):
     plt.savefig(savefig)
     
 
-def plotDCFc(x, y,xlabel):
-    
-    """ Plots the minDCF trend when the different c change, x is the list of C, y is the list of minDCF,
-        store them in the folder called Generated_figures"""
-    
-    
-    plt.figure()
-    plt.plot(x, y[0:len(x)], label='min DCF prior=0.5 c=0', color='b')
-    plt.plot(x, y[len(x): 2*len(x)], label='min DCF prior=0.5 c=1', color='r')
-    plt.plot(x, y[2*len(x): 3*len(x)], label='min DCF prior=0.5 c=10', color='g')
-    plt.plot(x, y[3*len(x): 4*len(x)], label='min DCF prior=0.5 c=30', color='m')
-    plt.xlim([min(x), max(x)])
-    plt.xscale("log")
-    plt.legend(["min DCF prior=0.5 c=0", "min DCF prior=0.5 c=1", "min DCF prior=0.5 c=10","min DCF prior=0.5 c=30"])
-    plt.xlabel(xlabel)
-    plt.ylabel("min DCF")
-    plt.savefig('Graphics/Generated_figures/DCFPlots/minDCF_%s.jpg' % (xlabel))
-    plt.show()
-    return
 
-def plotDCFg(x, y,xlabel):
+def bayesError_plot(x, min1, min2, act1, act2, names, title):
     
-    """ Plots the minDCF trend when the different g change, x is the list of C, y is the list of minDCF,
-        store them in the folder called Generated_figures"""
-    
-    
-    plt.figure()
-    plt.plot(x, y[0:len(x)], label='min DCF prior=0.5 g=1e-5', color='b')
-    plt.plot(x, y[len(x): 2*len(x)], label='min DCF prior=0.5 g=1e-4', color='r')
-    plt.plot(x, y[2*len(x): 3*len(x)], label='min DCF prior=0.5 g=1e-3', color='g')
-    plt.plot(x, y[3*len(x): 4*len(x)], label='min DCF prior=0.5 g=1e-2', color='m')
-    plt.xlim([min(x), max(x)])
-    plt.xscale("log")
-    plt.legend(["min DCF prior=0.5 g=1e-5", "min DCF prior=0.5 g=1e-4", "min DCF prior=0.5 g=1e-3","min DCF prior=0.5 g=1e-2"])
-    plt.xlabel(xlabel)
-    plt.ylabel("min DCF")
-    plt.savefig('Graphics/Generated_figures/DCFPlots/minDCF_%s.jpg' % (xlabel))
-    plt.show()
-    return
 
-# def bayes_error_plot(pArray,llrs,Labels, minCost=False):
-    
-#     """ Plots the bayes error, p in the bound, llr and labels are the log likelihood ratio and the class labels respectively,
-#         store them in the folder called Generated_figures"""
-    
-#     y=[]
-#     for p in pArray:
-#         pi = 1.0/(1.0+numpy.exp(-p))
-#         if minCost:
-#             y.append(BayesDecision.compute_min_DCF(llrs, Labels, pi, 1, 1))
-#         else: 
-#             y.append(BayesDecision.compute_act_DCF(llrs, Labels, pi, 1, 1))
+    plt.plot(x, min1, label=f'{names[0]} - min DCF ', linestyle='--' , color='b')
+    plt.plot(x, act1, label=f'{names[0]} - act DCF', color='b')
 
-#     return numpy.array(y)
+    plt.plot(x, min2, label=f'{names[1]} - min DCF ', linestyle='--', color='r')
+    plt.plot(x, act2, label=f'{names[1]} - act DCF ', color='r')
+
+    plt.xlim([-3, 3])
+    plt.xlabel("prior log-odds")
+    plt.ylabel("DCF value")
+    plt.legend()
+
+    plt.savefig(f'plots/figures/BayesError/{title}.jpg')
+
+def bayesError_plot_test(x, min1, min2, act1, act2, names, title):
+    
+
+    plt.plot(x, min1, label=f'{names[0]} - min DCF ', linestyle='--' , color='b')
+    plt.plot(x, act1, label=f'{names[0]} - act DCF', color='b')
+
+    plt.plot(x, min2, label=f'{names[1]} - min DCF ', linestyle='--', color='r')
+    plt.plot(x, act2, label=f'{names[1]} - act DCF ', color='r')
+
+    plt.xlim([-3, 3])
+    plt.xlabel("prior log-odds")
+    plt.ylabel("DCF value")
+    plt.legend()
+
+    plt.savefig(f'plots/figures/BayesErrorTest/{title}.jpg')

@@ -62,3 +62,48 @@ def compute_act_DCF(llrs, Labels, pi, cfn, cfp):
     DCF_norm = DCF/B_dummy
     return DCF_norm
 
+
+def threshold(pi, Cfn, Cfp):
+    t = -numpy.log((pi*Cfn)/((1-pi)*Cfp))
+    return t
+
+
+def DCF(params, FNR, FPR):
+    pi, Cfn, Cfp = params
+    
+    y = (pi*Cfn*FNR)+((1-pi)*(Cfp*FPR))
+    
+    return y
+
+def B_Dummy(params):
+    pi, Cfn, Cfp = params
+    y = min((pi*Cfn), ((1-pi)*Cfp))
+    
+    return y
+
+def optimalBayesDescision(llr, params):
+    C = 0
+    pi, Cfn, Cfp = params
+
+    if(llr > threshold(pi, Cfn, Cfp)):
+        C = 1
+        
+    return C
+
+
+def compute_DCF(params, llr, L):
+    Confusion_Matrix = numpy.zeros((2,2))
+    
+    for i in range(L.size):
+        predict_label = optimalBayesDescision(llr[i], params)       
+        Confusion_Matrix[predict_label,L[i]] += 1
+    
+    
+    FNR = Confusion_Matrix[0,1]/(Confusion_Matrix[0,1]+Confusion_Matrix[1,1])
+    FPR = Confusion_Matrix[1,0]/(Confusion_Matrix[1,0]+Confusion_Matrix[0,0])
+    
+    dcf = DCF(params, FNR, FPR)
+    
+    dummy = B_Dummy(params)
+    dcf_normalized = dcf/dummy
+    return dcf_normalized

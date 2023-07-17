@@ -1,10 +1,9 @@
 import numpy as np
-from preprocessing import gauss_znorm, PCA, LDA
+from preprocessing import gauss_znorm, PCA
 
 types_d = {'gaussianization': False, 
            'Z-normalization': False,
-           'PCA': False,
-           'LDA': False}
+           'PCA': False}
 
 def k_fold(D, L, algorithm, K=5, params=None, params_cal=None, seed=0, types = None, pca_value = None):
     """ Implementation of the k-fold cross validation approach
@@ -57,19 +56,14 @@ def k_fold(D, L, algorithm, K=5, params=None, params_cal=None, seed=0, types = N
             
 
         if types_d['Z-normalization']:
-                DTE = gauss_znorm.z_score_normalization(DTR,DTE)
-                DTR = gauss_znorm.z_score_normalization(DTR,DTR)
+            DTE = gauss_znorm.z_score_normalization(DTR,DTE)
+            DTR = gauss_znorm.z_score_normalization(DTR,DTR)
                 
             
         if types_d['PCA']:
             DTE=PCA.PCA(DTR, DTE, pca_value)
             DTR=PCA.PCA(DTR, DTR, pca_value)
             
-
-        if types_d['LDA']:
-            m_lda = 1
-            DTE=LDA.LDA(DTR, LTR,DTE, m_lda)
-            DTR=LDA.LDA(DTR, LTR,DTR, m_lda)
             
             
         # calculate scores
@@ -81,7 +75,10 @@ def k_fold(D, L, algorithm, K=5, params=None, params_cal=None, seed=0, types = N
         all_llrs.append(llr)
         all_labels.append(LTE)
 
+
     all_llrs = np.hstack(all_llrs)
     all_labels = np.hstack(all_labels)
+
+    
     
     return all_llrs, all_labels

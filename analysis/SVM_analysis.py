@@ -1,7 +1,6 @@
 from model_evaluation import bayesEval, kFold
 from models.SVMs import linearSVM, kernelSVM
 import numpy as np
-import matplotlib.pyplot as plt
 from tqdm import tqdm
 from plots.plots import plotDCFprior
 
@@ -45,6 +44,7 @@ def SVM_RBFanalysis(y_list, DTR, LTR, C_list, type_k = 'RBF', eval_types = None,
     listMinDCF = list()
 
     applications = [(0.5, 1, 1), (0.1, 1, 1), (0.9, 1, 1)]
+    
     for y in y_list:
         
 
@@ -53,10 +53,11 @@ def SVM_RBFanalysis(y_list, DTR, LTR, C_list, type_k = 'RBF', eval_types = None,
                 pi1, Cfn, Cfp = app
                 all_llrs, all_labels = kFold.k_fold(DTR, LTR, type_d['kernel'], params = [C, type_k, y], types = eval_types, pca_value = pca_value)
                 DCF_min =  bayesEval.compute_min_DCF(all_llrs, all_labels, pi1, Cfn, Cfp)
+                DCF_act = bayesEval.compute_act_DCF(all_llrs, all_labels, pi1, Cfn, Cfp)
                 listMinDCF.append(DCF_min)
 
                 if print_values:
-                    print(f'pi = {pi1}, y = {y}, c = {C}, minDCF = {DCF_min}')
+                    print(f'pi = {pi1}, y = {y}, c = {C}, minDCF = {DCF_min} - actDCF = {DCF_act}')
         
         
     if print_values == False:

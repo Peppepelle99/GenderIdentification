@@ -18,17 +18,31 @@ def logreg_obj_wrap_balancing(DTR, LTR, l, pi):
 
 
 
-
 def compute_linearLogReg(DTR, LTR, DTE, l, pi):
-    
+
     v = np.zeros(DTR.shape[0]+1)
     logreg_obj2 = logreg_obj_wrap_balancing(DTR, LTR, l, pi)
     y, _J, _d = so.fmin_l_bfgs_b(logreg_obj2, v, approx_grad=True)
-     
 
     S = np.dot(y[0:-1], DTE) + y[-1]
     
     return S
+
+
+# score calibration
+
+def compute_linearLogReg_scoreCal(STR, LTR, STE, l, pi):
+
+    v = np.zeros(STR.shape[0]+1)
+    logreg_obj2 = logreg_obj_wrap_balancing(STR, LTR, l, pi)
+    y, _J, _d = so.fmin_l_bfgs_b(logreg_obj2, v, approx_grad=True)
+    
+    S_cal = y[0:-1] * STE + y[-1] - np.log(pi/(1-pi)) #a_o * S + b_o - log(pi/1-pi)
+
+    
+    return S_cal
+
+
  
 
      

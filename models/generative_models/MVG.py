@@ -12,12 +12,6 @@ def ML_GAU(D):
 
 
 def GaussianClassifier(DTrain, LTrain, DTest):
-    """ Implementation of the  Multivariate Gaussian Classifier
-        using log_densities
-        DTR and LTR are training data and labels
-        DTE are evaluation data 
-        returns: the log-likelihood ratio
-    """
     
     h = {} 
 
